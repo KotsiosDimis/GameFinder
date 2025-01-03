@@ -11,6 +11,7 @@
             <option value="">All Platforms</option>
             <option value="pc">PC</option>
             <option value="playstation">PlayStation</option>
+            <option value="playstation">Wii</option>
         </select>
     </div>
     <div class="col-md-3">
