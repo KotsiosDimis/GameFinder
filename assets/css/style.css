@@ -1,0 +1,16 @@
+#autocompleteResults {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+#autocompleteResults .list-group-item {
+    cursor: pointer;
+}
