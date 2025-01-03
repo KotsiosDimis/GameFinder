@@ -16,6 +16,10 @@
         <!-- Sorting Section -->
         <?php include('components/sorting.php'); ?>
 
+        <h3 class="text-right">results per page</h3>
+        <!-- Page Size Section -->
+        <?php include('components/pagesize.php'); ?>
+
         <!-- Results Section -->
         <div id="results" class="mt-4"></div>
 

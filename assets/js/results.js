@@ -75,6 +75,7 @@ const resultsPerPage = 10; // Fixed results per page
 // Function to fetch and render results for a specific page
 function fetchResults(page = 1) {
     currentPage = page; // Update current page
+    const resultsPerPage = document.getElementById('resultsPerPage').value; // Get selected results per page
     let query = document.getElementById('searchQuery').value;
     query = preprocessQuery(query); // Preprocess the query
     query = handleLogicalOperators(query); // Handle logical operators
@@ -84,7 +85,7 @@ function fetchResults(page = 1) {
     const releaseDate = document.getElementById('releaseDateFilter').value;
 
     if (query.length > 2) {
-        let url = `api/fetchGames.php?query=${query}&page=${page}`;
+        let url = `api/fetchGames.php?query=${query}&page=${page}&page_size=${resultsPerPage}`;
         if (genre) url += `&genre=${genre}`;
         if (platform) url += `&platform=${platform}`;
         if (releaseDate) url += `&release_date=${releaseDate}`;
@@ -93,7 +94,7 @@ function fetchResults(page = 1) {
             .then(response => response.json())
             .then(data => {
                 renderResults(data.results);
-                renderPagination(data.totalResults, resultsPerPage, data.currentPage);
+                renderPagination(data.totalResults, parseInt(resultsPerPage), data.currentPage);
             })
             .catch(error => {
                 console.error('Error fetching results:', error);
@@ -105,6 +106,7 @@ function fetchResults(page = 1) {
         document.getElementById('pagination').innerHTML = ''; // Clear pagination
     }
 }
+
 
 // Function to render pagination
 function renderPagination(totalResults, resultsPerPage, currentPage) {
