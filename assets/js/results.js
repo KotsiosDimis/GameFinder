@@ -25,11 +25,13 @@ function renderResults(results) {
             const gameDiv = document.createElement('div');
             gameDiv.classList.add('card', 'mb-3');
             gameDiv.innerHTML = `
-                <div class="card-body">
-                    <h5 class="card-title">${game.name}</h5>
-                    <p class="card-text">${game.released ? `Released: ${game.released}` : 'Release date not available'}</p>
-                    <p class="card-text">${game.rating ? `Rating: ${game.rating}` : 'Rating not available'}</p>
-                </div>
+                <a href="gameDetails.php?id=${game.id}"
+                    <div class="card-body">
+                        <h5 class="card-title">${game.name}</h5>
+                        <p class="card-text">${game.released ? `Released: ${game.released}` : 'Release date not available'}</p>
+                        <p class="card-text">${game.rating ? `Rating: ${game.rating}` : 'Rating not available'}</p>
+                    </div>
+                </a>
             `;
             resultsDiv.appendChild(gameDiv);
         });
@@ -37,6 +39,7 @@ function renderResults(results) {
         resultsDiv.innerHTML = '<p>No results found</p>';
     }
 }
+
 
 // Function to perform the search
 function performSearch() {
@@ -185,6 +188,49 @@ function renderPagination(totalResults, resultsPerPage, currentPage) {
         paginationDiv.appendChild(paginationUl);
     }
 }
+
+
+function fetchGameDetails(gameId) {
+    const resultsDiv = document.getElementById('results');
+    const paginationDiv = document.getElementById('pagination');
+
+    // Clear previous results and pagination
+    resultsDiv.innerHTML = '<p>Loading game details...</p>';
+    paginationDiv.innerHTML = '';
+
+    fetch(`api/fetchGameDetails.php?id=${gameId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+                return;
+            }
+
+            // Render game details
+            resultsDiv.innerHTML = `
+                <div class="card">
+                    <img src="${data.background_image}" class="card-img-top" alt="${data.name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${data.name}</h5>
+                        <p class="card-text"><strong>Description:</strong> ${data.description_raw || 'No description available'}</p>
+                        <p class="card-text"><strong>Released:</strong> ${data.released || 'Unknown'}</p>
+                        <p class="card-text"><strong>Rating:</strong> ${data.rating || 'Not rated'}</p>
+                        <button class="btn btn-secondary" id="backToSearch">Back to Search</button>
+                    </div>
+                </div>
+            `;
+
+            // Add back to search functionality
+            document.getElementById('backToSearch').addEventListener('click', function () {
+                fetchResults(currentPage); // Return to search results
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching game details:', error);
+            resultsDiv.innerHTML = '<p>Error fetching game details. Please try again later.</p>';
+        });
+}
+
 
 
 // Attach event listeners
