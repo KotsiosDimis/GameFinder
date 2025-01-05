@@ -2,6 +2,7 @@
 
 <div class="container-fluid mt-5">
     <div class="row content">
+        
         <div class="col-sm-3 sidenav mt-4">
             <h3 class="text-center">Filters</h3>
             <!-- Filters Section -->
@@ -26,6 +27,10 @@
             <h1 class="text-left">Search for Games</h1>
             <!-- Search Bar Section -->
             <?php include('components/searchBar.php'); ?>
+            
+            <!-- Add spacing -->
+            <div style="margin-top: 30px;"></div>
+            
             <!-- Results Section -->
             <div id="results" class="mp-5"></div>
         </div>
