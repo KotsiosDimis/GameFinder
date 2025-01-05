@@ -13,6 +13,20 @@ function handleLogicalOperators(query) {
     return query;
 }
 
+// Test functions
+function testTokenization() {
+    const query = "The quick brown fox jumps over the lazy dog";
+    const tokens = query.toLowerCase().split(/\s+/);
+    console.log("Tokenization Test:", tokens);
+}
+
+function testStopWordsRemoval() {
+    const stopWords = ['the', 'is', 'and', 'or', 'not', 'of', 'a', 'an'];
+    const query = "The quick brown fox jumps over the lazy dog";
+    const tokens = query.toLowerCase().split(/\s+/).filter(token => !stopWords.includes(token));
+    console.log("Stop-Words Removal Test:", tokens);
+}
+
 // Function to render the sorted results
 function renderResults(results) {
     const resultsDiv = document.getElementById('results');
@@ -20,6 +34,10 @@ function renderResults(results) {
 
     if (results.length) {
         results.forEach(game => {
+            const platforms = game.platforms
+                ? game.platforms.map(p => p.platform.name).join(', ')
+                : 'Platforms not available';
+
             const gameDiv = document.createElement('div');
             gameDiv.classList.add('card', 'mb-3');
             gameDiv.innerHTML = `
@@ -28,6 +46,7 @@ function renderResults(results) {
                         <h5 class="card-title">${game.name}</h5>
                         <p class="card-text">${game.released ? `Released: ${game.released}` : 'Release date not available'}</p>
                         <p class="card-text">${game.rating ? `Rating: ${game.rating}` : 'Rating not available'}</p>
+                        <p class="card-text"><strong>Platforms:</strong> ${platforms}</p>
                     </div>
                 </a>
             `;
@@ -48,8 +67,8 @@ function renderResultsInfo(totalResults, pageSize, currentPage) {
 // Function to perform the search
 function performSearch() {
     let query = document.getElementById('searchQuery').value;
-    query = preprocessQuery(query); // Preprocess the query
-    query = handleLogicalOperators(query); // Handle logical operators
+    query = preprocessQuery(query);
+    query = handleLogicalOperators(query);
 
     const genre = document.getElementById('genreFilter').value;
     const platform = document.getElementById('platformFilter').value;
@@ -60,6 +79,8 @@ function performSearch() {
         if (genre) url += `&genre=${genre}`;
         if (platform) url += `&platform=${platform}`;
         if (releaseDate) url += `&release_date=${releaseDate}`;
+
+        console.log("Final Query URL:", url);
 
         fetch(url)
             .then(response => response.json())
@@ -83,11 +104,11 @@ const resultsPerPage = 10; // Fixed results per page
 
 // Function to fetch and render results for a specific page
 function fetchResults(page = 1) {
-    currentPage = page; // Update current page
-    const resultsPerPage = document.getElementById('resultsPerPage').value; // Get selected results per page
+    currentPage = page;
+    const resultsPerPage = document.getElementById('resultsPerPage').value;
     let query = document.getElementById('searchQuery').value;
-    query = preprocessQuery(query); // Preprocess the query
-    query = handleLogicalOperators(query); // Handle logical operators
+    query = preprocessQuery(query);
+    query = handleLogicalOperators(query);
 
     const genre = document.getElementById('genreFilter').value;
     const platform = document.getElementById('platformFilter').value;
@@ -98,6 +119,8 @@ function fetchResults(page = 1) {
         if (genre) url += `&genre=${genre}`;
         if (platform) url += `&platform=${platform}`;
         if (releaseDate) url += `&release_date=${releaseDate}`;
+
+        console.log("Final Query URL:", url);
 
         fetch(url)
             .then(response => response.json())
@@ -110,83 +133,68 @@ function fetchResults(page = 1) {
                 console.error('Error fetching results:', error);
                 document.getElementById('results').innerHTML = '<p>Error fetching results. Please try again later.</p>';
                 document.getElementById('resultsInfo').textContent = '';
-                document.getElementById('pagination').innerHTML = ''; // Clear pagination
+                document.getElementById('pagination').innerHTML = '';
             });
     } else {
         document.getElementById('results').innerHTML = '<p>Please enter a search term.</p>';
         document.getElementById('resultsInfo').textContent = '';
-        document.getElementById('pagination').innerHTML = ''; // Clear pagination
+        document.getElementById('pagination').innerHTML = '';
     }
 }
 
 // Function to render pagination
 function renderPagination(totalResults, resultsPerPage, currentPage) {
     const paginationDiv = document.getElementById('pagination');
-    paginationDiv.innerHTML = ''; // Clear previous pagination
+    paginationDiv.innerHTML = '';
 
     const totalPages = Math.ceil(totalResults / resultsPerPage);
-    const maxVisiblePages = 10; // Maximum number of visible page links
+    const maxVisiblePages = 10;
 
     if (totalPages > 1) {
         const paginationUl = document.createElement('ul');
         paginationUl.classList.add('pagination', 'justify-content-center');
 
-        // Calculate range of pages to display
         const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
         const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
-        // Ensure we always show a consistent range
-        const adjustedStartPage = Math.max(1, endPage - maxVisiblePages + 1);
-
-        // Add "Previous" button
         const prevItem = document.createElement('li');
         prevItem.classList.add('page-item');
-        if (currentPage === 1) {
-            prevItem.classList.add('disabled');
-        }
+        if (currentPage === 1) prevItem.classList.add('disabled');
         const prevLink = document.createElement('a');
         prevLink.classList.add('page-link');
         prevLink.textContent = 'Previous';
         prevLink.href = '#';
-        prevLink.addEventListener('click', function (event) {
+        prevLink.addEventListener('click', event => {
             event.preventDefault();
             if (currentPage > 1) fetchResults(currentPage - 1);
         });
         prevItem.appendChild(prevLink);
         paginationUl.appendChild(prevItem);
 
-        // Add page links
-        for (let i = adjustedStartPage; i <= endPage; i++) {
+        for (let i = startPage; i <= endPage; i++) {
             const pageItem = document.createElement('li');
             pageItem.classList.add('page-item');
-            if (i === currentPage) {
-                pageItem.classList.add('active');
-            }
-
+            if (i === currentPage) pageItem.classList.add('active');
             const pageLink = document.createElement('a');
             pageLink.classList.add('page-link');
             pageLink.textContent = i;
             pageLink.href = '#';
-            pageLink.addEventListener('click', function (event) {
+            pageLink.addEventListener('click', event => {
                 event.preventDefault();
                 fetchResults(i);
             });
-
             pageItem.appendChild(pageLink);
             paginationUl.appendChild(pageItem);
         }
 
-        // Add "Next" button
         const nextItem = document.createElement('li');
         nextItem.classList.add('page-item');
-        if (currentPage === totalPages) {
-            nextItem.classList.add('disabled');
-        }
+        if (currentPage === totalPages) nextItem.classList.add('disabled');
         const nextLink = document.createElement('a');
         nextLink.classList.add('page-link');
         nextLink.textContent = 'Next';
         nextLink.href = '#';
-        nextLink.addEventListener('click', function (event) {
+        nextLink.addEventListener('click', event => {
             event.preventDefault();
             if (currentPage < totalPages) fetchResults(currentPage + 1);
         });
@@ -197,11 +205,11 @@ function renderPagination(totalResults, resultsPerPage, currentPage) {
     }
 }
 
+// Function to fetch game details
 function fetchGameDetails(gameId) {
     const resultsDiv = document.getElementById('results');
     const paginationDiv = document.getElementById('pagination');
 
-    // Clear previous results and pagination
     resultsDiv.innerHTML = '<p>Loading game details...</p>';
     paginationDiv.innerHTML = '';
 
@@ -213,7 +221,6 @@ function fetchGameDetails(gameId) {
                 return;
             }
 
-            // Render game details
             resultsDiv.innerHTML = `
                 <div class="card">
                     <img src="${data.background_image}" class="card-img-top" alt="${data.name}">
@@ -227,9 +234,8 @@ function fetchGameDetails(gameId) {
                 </div>
             `;
 
-            // Add back to search functionality
-            document.getElementById('backToSearch').addEventListener('click', function () {
-                fetchResults(currentPage); // Return to search results
+            document.getElementById('backToSearch').addEventListener('click', () => {
+                fetchResults(currentPage);
             });
         })
         .catch(error => {
@@ -240,8 +246,6 @@ function fetchGameDetails(gameId) {
 
 // Attach event listeners
 document.getElementById('searchButton').addEventListener('click', () => fetchResults(1));
-document.getElementById('searchQuery').addEventListener('keydown', function (event) {
-    if (event.key === 'Enter') {
-        fetchResults(1);
-    }
+document.getElementById('searchQuery').addEventListener('keydown', event => {
+    if (event.key === 'Enter') fetchResults(1);
 });
