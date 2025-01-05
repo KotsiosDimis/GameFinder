@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center position-relative">
+<div class="d-flex justify-content-left position-relative">
             <input 
                 type="text" 
                 id="searchQuery" 
