@@ -1,5 +1,3 @@
-// results.js
-
 // Function to preprocess queries (tokenization and stop-words removal)
 function preprocessQuery(query) {
     const stopWords = ['the', 'is', 'and', 'or', 'not', 'of', 'a', 'an']; // Common stop-words
@@ -25,7 +23,7 @@ function renderResults(results) {
             const gameDiv = document.createElement('div');
             gameDiv.classList.add('card', 'mb-3');
             gameDiv.innerHTML = `
-                <a href="gameDetails.php?id=${game.id}"
+                <a href="gameDetails.php?id=${game.id}">
                     <div class="card-body">
                         <h5 class="card-title">${game.name}</h5>
                         <p class="card-text">${game.released ? `Released: ${game.released}` : 'Release date not available'}</p>
@@ -40,6 +38,12 @@ function renderResults(results) {
     }
 }
 
+// Function to render results info (total results and pages)
+function renderResultsInfo(totalResults, pageSize, currentPage) {
+    const totalPages = Math.ceil(totalResults / pageSize);
+    const resultsInfoDiv = document.getElementById('resultsInfo');
+    resultsInfoDiv.textContent = `Showing page ${currentPage} of ${totalPages}. Total results: ${totalResults}.`;
+}
 
 // Function to perform the search
 function performSearch() {
@@ -61,16 +65,18 @@ function performSearch() {
             .then(response => response.json())
             .then(data => {
                 renderResults(data.results);
+                renderResultsInfo(data.totalResults, data.pageSize, data.currentPage);
             })
             .catch(error => {
                 console.error('Error fetching results:', error);
                 document.getElementById('results').innerHTML = '<p>Error fetching results. Please try again later.</p>';
+                document.getElementById('resultsInfo').textContent = '';
             });
     } else {
         document.getElementById('results').innerHTML = '<p>Please enter a search term.</p>';
+        document.getElementById('resultsInfo').textContent = '';
     }
 }
-
 
 let currentPage = 1; // Track the current page
 const resultsPerPage = 10; // Fixed results per page
@@ -97,19 +103,21 @@ function fetchResults(page = 1) {
             .then(response => response.json())
             .then(data => {
                 renderResults(data.results);
+                renderResultsInfo(data.totalResults, parseInt(resultsPerPage), data.currentPage);
                 renderPagination(data.totalResults, parseInt(resultsPerPage), data.currentPage);
             })
             .catch(error => {
                 console.error('Error fetching results:', error);
                 document.getElementById('results').innerHTML = '<p>Error fetching results. Please try again later.</p>';
+                document.getElementById('resultsInfo').textContent = '';
                 document.getElementById('pagination').innerHTML = ''; // Clear pagination
             });
     } else {
         document.getElementById('results').innerHTML = '<p>Please enter a search term.</p>';
+        document.getElementById('resultsInfo').textContent = '';
         document.getElementById('pagination').innerHTML = ''; // Clear pagination
     }
 }
-
 
 // Function to render pagination
 function renderPagination(totalResults, resultsPerPage, currentPage) {
@@ -189,7 +197,6 @@ function renderPagination(totalResults, resultsPerPage, currentPage) {
     }
 }
 
-
 function fetchGameDetails(gameId) {
     const resultsDiv = document.getElementById('results');
     const paginationDiv = document.getElementById('pagination');
@@ -231,8 +238,6 @@ function fetchGameDetails(gameId) {
         });
 }
 
-
-
 // Attach event listeners
 document.getElementById('searchButton').addEventListener('click', () => fetchResults(1));
 document.getElementById('searchQuery').addEventListener('keydown', function (event) {
@@ -240,4 +245,3 @@ document.getElementById('searchQuery').addEventListener('keydown', function (eve
         fetchResults(1);
     }
 });
-

@@ -27,7 +27,14 @@
             <h1 class="text-left">Search for Games</h1>
             <!-- Search Bar Section -->
             <?php include('components/searchBar.php'); ?>
-            
+
+            <!-- Add spacing -->
+            <div style="margin-top: 30px;"></div>
+
+            <!-- Results Info Section -->
+            <div id="resultsInfo" class="alert alert-info"></div>
+            <div id="results"></div>
+
             <!-- Add spacing -->
             <div style="margin-top: 30px;"></div>
             
