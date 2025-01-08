@@ -109,6 +109,12 @@ document.getElementById('resultsPerPage').addEventListener('change', () => {
 });
 
 // Updated fetchResults function to dynamically update page size
+// Attach event listeners to filters
+document.getElementById('genreFilter').addEventListener('change', () => fetchResults(1));
+document.getElementById('platformFilter').addEventListener('change', () => fetchResults(1));
+document.getElementById('releaseDateFilter').addEventListener('change', () => fetchResults(1));
+
+// Updated fetchResults function to include filters
 function fetchResults(page = 1) {
     currentPage = page;
     const resultsPerPage = document.getElementById('resultsPerPage').value; // Get selected results per page
@@ -116,11 +122,12 @@ function fetchResults(page = 1) {
     query = preprocessQuery(query);
     query = handleLogicalOperators(query);
 
+    // Get selected filter values
     const genre = document.getElementById('genreFilter').value;
     const platform = document.getElementById('platformFilter').value;
     const releaseDate = document.getElementById('releaseDateFilter').value;
 
-    if (query.length > 2) {
+    if (query.length > 2 || genre || platform || releaseDate) { // Ensure at least one filter or query is active
         let url = `api/fetchGames.php?query=${query}&page=${page}&page_size=${resultsPerPage}`;
         if (genre) url += `&genre=${genre}`;
         if (platform) url += `&platform=${platform}`;
@@ -142,7 +149,7 @@ function fetchResults(page = 1) {
                 document.getElementById('pagination').innerHTML = '';
             });
     } else {
-        document.getElementById('results').innerHTML = '<p>Please enter a search term.</p>';
+        document.getElementById('results').innerHTML = '<p>Please enter a search term or select a filter.</p>';
         document.getElementById('resultsInfo').textContent = '';
         document.getElementById('pagination').innerHTML = '';
     }
