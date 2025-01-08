@@ -103,9 +103,15 @@ let currentPage = 1; // Track the current page
 const resultsPerPage = 10; // Fixed results per page
 
 // Function to fetch and render results for a specific page
+// Attach event listener for the page size dropdown
+document.getElementById('resultsPerPage').addEventListener('change', () => {
+    fetchResults(1); // Fetch results for the first page with the new page size
+});
+
+// Updated fetchResults function to dynamically update page size
 function fetchResults(page = 1) {
     currentPage = page;
-    const resultsPerPage = document.getElementById('resultsPerPage').value;
+    const resultsPerPage = document.getElementById('resultsPerPage').value; // Get selected results per page
     let query = document.getElementById('searchQuery').value;
     query = preprocessQuery(query);
     query = handleLogicalOperators(query);
@@ -141,6 +147,7 @@ function fetchResults(page = 1) {
         document.getElementById('pagination').innerHTML = '';
     }
 }
+
 
 // Function to render pagination
 function renderPagination(totalResults, resultsPerPage, currentPage) {
