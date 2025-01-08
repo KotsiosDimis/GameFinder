@@ -243,6 +243,7 @@ function fetchGameDetails(gameId) {
                         <p class="card-text"><strong>Description:</strong> ${data.description_raw || 'No description available'}</p>
                         <p class="card-text"><strong>Released:</strong> ${data.released || 'Unknown'}</p>
                         <p class="card-text"><strong>Rating:</strong> ${data.rating || 'Not rated'}</p>
+                        <p class="card-text"><strong>Platforms:</strong> ${data.platforms.map(p => p.platform.name).join(', ') || 'Platforms not available'}</p>
                         <button class="btn btn-secondary" id="backToSearch">Back to Search</button>
                     </div>
                 </div>
