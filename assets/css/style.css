@@ -14,3 +14,329 @@
 #autocompleteResults .list-group-item {
     cursor: pointer;
 }
+
+/* General Card Styling */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #f5f7fa, #e4ebf5);
+}
+
+/* Card Titles */
+.card-title {
+    font-size: 1.8rem;
+    font-family: 'Poppins', sans-serif;
+    color: #4A90E2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.card-title::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 4px;
+    background-color: #4A90E2;
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+/* Form Labels */
+.form-label {
+    font-size: 1.1rem;
+    font-family: 'Roboto', sans-serif;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* Form Select Dropdown */
+.form-select {
+    border: 2px solid #4A90E2;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #E94E77;
+    box-shadow: 0px 0px 8px rgba(233, 78, 119, 0.4);
+}
+
+.form-select-lg {
+    font-size: 1.2rem;
+    padding: 12px;
+}
+
+/* Disabled Dropdown */
+.form-select[disabled] {
+    background-color: #f0f0f0;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+/* Hover Effect for Dropdown */
+.form-select:hover {
+    border-color: #E94E77;
+}
+
+/* Card Body Styling */
+.card-body {
+    padding: 24px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #ffffff, #dfe3ec);
+}
+
+/* Row Spacing */
+.row {
+    margin-top: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card-title {
+        font-size: 1.5rem;
+    }
+
+    .form-label {
+        font-size: 1rem;
+    }
+
+    .form-select {
+        font-size: 0.9rem;
+    }
+}
+
+/* Navbar Styling */
+.navbar {
+    background: linear-gradient(145deg, #f9fafb, #e9ecef);
+    border-bottom: 2px solid #4A90E2;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+/* Navbar Brand Styling */
+.navbar-brand {
+    font-size: 1.8rem;
+    font-family: 'Poppins', sans-serif;
+    color: #4A90E2;
+    font-weight: bold;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.1);
+    color: #E94E77;
+}
+
+/* Center the Brand in the Navbar */
+.navbar-brand.text-center {
+    display: block;
+    margin: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+}
+
+
+/* Footer Styling */
+.footer {
+    background: linear-gradient(145deg, #f9fafb, #e9ecef);
+    border-top: 2px solid #4A90E2;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+    color: #4A90E2;
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer p {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+.footer p.small {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Hover Effect for Small Text */
+.footer p.small:hover {
+    color: #E94E77;
+    transition: color 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer p {
+        font-size: 0.9rem;
+    }
+
+    .footer p.small {
+        font-size: 0.75rem;
+    }
+}
+
+/* Search Bar Styling */
+.input-group {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.input-group input {
+    font-size: 1.2rem;
+    padding: 12px;
+    border: 2px solid #4A90E2;
+    border-right: none;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #E94E77;
+    box-shadow: 0px 0px 8px rgba(233, 78, 119, 0.4);
+}
+
+.input-group button {
+    background-color: #4A90E2;
+    border: 2px solid #4A90E2;
+    font-size: 1.2rem;
+    padding: 12px 24px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.input-group button:hover {
+    background-color: #E94E77;
+    transform: scale(1.05);
+}
+
+/* Autocomplete Results */
+#autocompleteResults {
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#autocompleteResults .list-group-item {
+    padding: 10px;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#autocompleteResults .list-group-item:hover {
+    background-color: #E94E77;
+    color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .input-group {
+        width: 100%;
+    }
+
+    .input-group input {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .input-group button {
+        font-size: 1rem;
+        padding: 10px 16px;
+    }
+
+    #autocompleteResults .list-group-item {
+        font-size: 0.9rem;
+    }
+}
+
+/* Autocomplete Results Styling */
+#autocompleteResults {
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    left: 0; /* Align with the left edge of the input */
+    top: 100%; /* Position directly below the input */
+    width: 100%; /* Match the width of the input */
+    z-index: 1000;
+}
+
+#autocompleteResults .list-group-item {
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#autocompleteResults .list-group-item:hover {
+    background-color: #E94E77;
+    color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #autocompleteResults .list-group-item {
+        font-size: 0.9rem;
+    }
+}
+
+/* H1 Styling */
+h1 {
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/* Add playful shadow */
+h1 span {
+    display: inline-block;
+    animation: bounce 1.5s infinite;
+}
+
+/* Add alternating colors */
+h1 span.text-secondary {
+    animation-delay: 0s;
+}
+
+h1 span.text-success {
+    animation-delay: 0.5s;
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+}
+
