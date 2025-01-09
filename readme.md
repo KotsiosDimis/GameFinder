@@ -105,7 +105,7 @@ GameFinder/
 ## Credits
 
 - RAWG API for game data.
-- Developed by [Your Name].
+- Developed by Kotsios Dimis.
 
 ---
 
